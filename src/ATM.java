@@ -23,13 +23,15 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 // Реализация с помощью жадных алгоритмов
-public static class ATM {
 
-    protected static int[] denomination = new int[]{5000, 1000, 500, 200, 100};
+public static class ATM {
+    // Класс для управление банкоматом
+    protected static int[] denomination = new int[]{5000, 1000, 500, 200, 100}; // номиналы
 
     private static HashMap<Integer, Integer> counting_denomination(int input_sum){
+        // Метод для подсчета купюр, которые должен выдать банкомат
         if (!(input_sum >= 100 && input_sum <= 100_000 && input_sum % 100 == 0))
-            throw new IllegalArgumentException("Число должно быть от 100 до 100_000 и кратна 100");
+            throw new IllegalArgumentException("Число должно быть от 100 до 100.000 и кратна 100");
         HashMap<Integer, Integer> denomination_info = new HashMap<>();
         for (int i=0; i < denomination.length; i++){
             while (input_sum >= denomination[i]) {
@@ -45,22 +47,25 @@ public static class ATM {
 }
 
 public class ClientATM {
+    // Класс для взаимодействия с банкоматом через пользовательский интерфейс в консоли
 
-    protected static Class<ATM> atm = ATM.class;
-    protected int input_sum = 0;
-    public String name;
+    protected static Class<ATM> atm = ATM.class; // объект банкомата ATM
+    protected int input_sum = 0; // введенная сумма
+    public String name; // имя клиента
 
     public ClientATM(String name) {
         this.name = name;
     }
 
     public void input_amount_money(){
+        // Метод для ввода суммы через консоль
         Scanner scanner = new Scanner(System.in);
         System.out.print("Введите сумму денег для получения в рублях: ");
         this.input_sum = scanner.nextInt();
     }
 
     public void get_bills(){
+        // Метод для получения денег
         if (this.input_sum == 0)
             throw new IllegalArgumentException("Число не может быть нулем!");
         HashMap<Integer, Integer> denomination_info = ATM.counting_denomination(this.input_sum);
